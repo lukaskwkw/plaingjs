@@ -17,13 +17,17 @@ const PostPage: NextPage<Props> = ({ postContent }) => (
 PostPage.getInitialProps = async ({ query }: NextPageContext) => {
   //TODO: add client database i.e. redux or kind of singleton and try to get from it first
   const { pid } = query;
+  // if (typeof window !== "undefined") {
+  //   return { postContent: { title: "zz", description: "xx" } };
+  // }
+
   if (typeof pid !== "string") {
     return;
   }
 
   const url = `${apiUrl}posts/${encodeURIComponent(pid)}`;
 
-  const postContent = await fetch(url).then(r => r.json());
+  const postContent = await fetch(url).then(res => res.json());
 
   return { postContent };
 };

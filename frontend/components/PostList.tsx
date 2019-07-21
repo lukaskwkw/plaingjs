@@ -8,6 +8,7 @@ import {
   CardSubtitle
 } from "reactstrap";
 import { CardText, CardTitle, Col, Row } from "reactstrap";
+import Router from "next/router";
 
 interface PostListArgs {
   posts?: any;
@@ -15,14 +16,7 @@ interface PostListArgs {
 }
 
 const PostList = ({ posts, search }: PostListArgs) => {
-  // if (error) return "Error loading posts";
-  //if posts are returned from the GraphQL query, run the filter query
-  //and set equal to variable postsearch
-
-  // return <p>dupa</p>;
-
   if (posts && posts.length) {
-    //searchQuery
     const searchQuery = posts.filter(query =>
       query.title.toLowerCase().includes(search)
     );
@@ -48,7 +42,7 @@ const PostList = ({ posts, search }: PostListArgs) => {
                   {/* <CardText>{res.description}</CardText> */}
                 </CardBody>
                 <div className="card-footer">
-                  <Link as={`/posts/${post.id}`} href={`/posts?id=${post.id}`}>
+                  <Link href="/posts/[pid]" as={`/posts/${post.id}`}>
                     <a className="btn btn-primary">View</a>
                   </Link>
                 </div>

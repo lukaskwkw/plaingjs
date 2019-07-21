@@ -17,16 +17,14 @@ class Index extends React.Component<{ posts: object }> {
     query: ""
   };
 
-  static async getInitialProps({ req }) {
+  static async getInitialProps() {
     const res = await fetch(`${apiUrl}posts`);
+
     const posts = await res.json();
-    console.info("dupa");
     return { posts };
   }
 
   onChange(e) {
-    //set the state = to the input typed in the search Input Component
-    //this.state.query gets passed into RestaurantList to filter the results
     this.setState({ query: e.target.value.toLowerCase() });
   }
   render() {
