@@ -1,15 +1,7 @@
 import PostList from "../components/PostList";
 import React from "react";
 import fetch from "node-fetch";
-import {
-  Alert,
-  Button,
-  Col,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Row
-} from "reactstrap";
+import { Col, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
 import { apiUrl } from "../config";
 
 class Index extends React.Component<{ posts: object }> {
@@ -41,14 +33,13 @@ class Index extends React.Component<{ posts: object }> {
             <PostList posts={this.props.posts} search={this.state.query} />
           </Col>
         </Row>
-        <style jsx>
-          {`
-            .search {
-              margin: 20px;
-              width: 500px;
-            }
-          `}
-        </style>
+
+        <style jsx>{`
+          .search {
+            margin: 20px;
+            width: 500px;
+          }
+        `}</style>
       </div>
     );
   }

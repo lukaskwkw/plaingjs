@@ -1,15 +1,6 @@
 import Link from "next/link";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardColumns,
-  CardImg,
-  CardSubtitle
-} from "reactstrap";
-import { CardText, CardTitle, Col, Row } from "reactstrap";
-import Router from "next/router";
-
+import { Card, CardBody, CardImg } from "reactstrap";
+import { CardTitle } from "reactstrap";
 interface PostListArgs {
   posts?: any;
   search: string;
@@ -50,23 +41,21 @@ const PostList = ({ posts, search }: PostListArgs) => {
             ))}
           </div>
 
-          <style jsx global>
-            {`
-              a {
-                color: white;
-              }
-              a:link {
-                text-decoration: none;
-                color: white;
-              }
-              a:hover {
-                color: white;
-              }
-              .card-columns {
-                column-count: 3;
-              }
-            `}
-          </style>
+          <style jsx global>{`
+            a {
+              color: white;
+            }
+            a:link {
+              text-decoration: none;
+              color: white;
+            }
+            a:hover {
+              color: white;
+            }
+            .card-columns {
+              column-count: 3;
+            }
+          `}</style>
         </div>
       );
     } else {

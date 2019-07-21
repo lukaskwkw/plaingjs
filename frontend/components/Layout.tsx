@@ -33,6 +33,12 @@ class Layout extends React.Component {
             </NavItem>
 
             <NavItem className="ml-auto">
+              <Link href="/chat">
+                <a className="nav-link">Chat</a>
+              </Link>
+            </NavItem>
+
+            <NavItem>
               <Link href="/signin">
                 <a className="nav-link">Sign In</a>
               </Link>
