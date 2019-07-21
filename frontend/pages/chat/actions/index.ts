@@ -9,27 +9,27 @@ import TypeKeys, {
 let nextMessageId = 0;
 let nextUserId = 0;
 
-export const addMesage = (message, author): AddMessage => ({
+export const addMesage: AddMessage = (message, author) => ({
   type: TypeKeys.ADD_MESSAGE,
   id: nextMessageId++,
   message,
   author
 });
 
-export const addUser = (name): AddUser => ({
+export const addUser: AddUser = name => ({
   type: TypeKeys.ADD_USER,
   id: nextUserId++,
   name
 });
 
-export const messageReceived = (message, author): MessageReceived => ({
+export const messageReceived: MessageReceived = (message, author) => ({
   type: TypeKeys.MESSAGE_RECEIVED,
   id: nextMessageId++,
   message,
   author
 });
 
-export const populateUsersList = (users: User[]): PopulateUsersList => ({
+export const populateUsersList: PopulateUsersList = users => ({
   type: TypeKeys.USERS_LIST,
   users
 });

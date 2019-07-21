@@ -1,10 +1,10 @@
-export interface User {
+export type User = {
   id: number;
   name: string;
-}
+};
 
-export interface Message {
+export type Message = {
   id?: number;
   message: string;
   author: string;
-}
+};

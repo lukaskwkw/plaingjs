@@ -1,10 +1,16 @@
 import TypeKeys, { MessageActionTypes } from "../ActionTypes";
 import { Message } from "../model";
 
-export const messages = (
-  state: Required<Message>[] = [],
-  { author, id, message, type }: MessageActionTypes
-): Required<Message>[] => {
+interface MessageReducer {
+  (state: Required<Message>[], action: Message & MessageActionTypes): Required<
+    Message
+  >[];
+}
+
+export const messages: MessageReducer = (
+  state = [],
+  { author, id, message, type }
+) => {
   switch (type) {
     case TypeKeys.ADD_MESSAGE:
     case TypeKeys.MESSAGE_RECEIVED:

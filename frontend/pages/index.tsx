@@ -2,7 +2,7 @@ import PostList from "../components/PostList";
 import React from "react";
 import fetch from "node-fetch";
 import { Col, Input, InputGroup, InputGroupAddon, Row } from "reactstrap";
-import { apiUrl } from "../config";
+import { backendUrl } from "../config";
 
 class Index extends React.Component<{ posts: object }> {
   state = {
@@ -10,7 +10,7 @@ class Index extends React.Component<{ posts: object }> {
   };
 
   static async getInitialProps() {
-    const res = await fetch(`${apiUrl}posts`);
+    const res = await fetch(`${backendUrl}posts`);
 
     const posts = await res.json();
     return { posts };

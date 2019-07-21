@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Card, CardBody, CardImg } from "reactstrap";
 import { CardTitle } from "reactstrap";
+import url from "url";
+import { backendUrl } from "../config";
 interface PostListArgs {
   posts?: any;
   search: string;
@@ -11,6 +13,7 @@ const PostList = ({ posts, search }: PostListArgs) => {
     const searchQuery = posts.filter(query =>
       query.title.toLowerCase().includes(search)
     );
+
     if (searchQuery.length != 0) {
       return (
         <div>
@@ -25,7 +28,7 @@ const PostList = ({ posts, search }: PostListArgs) => {
                   <CardImg
                     top={true}
                     style={{ height: 250 }}
-                    src={`http://localhost:1337${post.cover.url}`}
+                    src={url.resolve(backendUrl, post.cover.url)}
                   />
                 )}
                 <CardBody>

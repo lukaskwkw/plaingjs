@@ -1,7 +1,8 @@
-import { apiUrl } from "../../config";
+import { backendUrl } from "../../config";
 import fetch from "node-fetch";
 import { NextPage, NextPageContext } from "next";
 import { Post } from "../../model";
+import url from "url";
 
 interface Props {
   postContent: Post;
@@ -25,9 +26,9 @@ PostPage.getInitialProps = async ({ query }: NextPageContext) => {
     return;
   }
 
-  const url = `${apiUrl}posts/${encodeURIComponent(pid)}`;
+  const postUrl = url.resolve(backendUrl, `/posts/${encodeURIComponent(pid)}`);
 
-  const postContent = await fetch(url).then(res => res.json());
+  const postContent = await fetch(postUrl).then(res => res.json());
 
   return { postContent };
 };
