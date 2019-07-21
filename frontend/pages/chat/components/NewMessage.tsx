@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 
-const NewMessage = ({ dispatch }: { dispatch: Function }) => {
+const NewMessage = ({ addMessage }: { addMessage: Function }) => {
   const [message, setMessage] = useState("");
 
   return (
@@ -11,7 +11,7 @@ const NewMessage = ({ dispatch }: { dispatch: Function }) => {
         placeholder="Type here..."
         onKeyPress={(event: KeyboardEvent) => {
           if (event.key === "Enter") {
-            dispatch();
+            addMessage(message, "Me");
             setMessage("");
             event.preventDefault();
           }

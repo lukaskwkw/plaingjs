@@ -1,4 +1,3 @@
-import { User } from "../model";
 import TypeKeys, {
   AddMessage,
   AddUser,
@@ -9,7 +8,7 @@ import TypeKeys, {
 let nextMessageId = 0;
 let nextUserId = 0;
 
-export const addMesage: AddMessage = (message, author) => ({
+export const addMessage: AddMessage = (message, author) => ({
   type: TypeKeys.ADD_MESSAGE,
   id: nextMessageId++,
   message,

@@ -3,11 +3,7 @@ import { User } from "../model";
 
 const Sidebar = ({ users }: { users: User[] }) => (
   <aside id="sidebar">
-    <ul>
-      {users.map(({ id, name }) => (
-        <li key={id}>{name}</li>
-      ))}
-    </ul>
+    <ul>{users && users.map(({ id, name }) => <li key={id}>{name}</li>)}</ul>
   </aside>
 );
 
