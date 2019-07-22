@@ -4,8 +4,9 @@ import App, { Container, AppContext } from "next/app";
 
 import Layout from "../components/Layout";
 import withReduxStore from "../utils/with-redux-store";
+import { AppStore } from "../store";
 
-class MyApp extends App<{ reduxStore: any }> {
+class MyApp extends App<{ reduxStore: AppStore }> {
   render() {
     const { Component, pageProps, reduxStore } = this.props;
     return (
