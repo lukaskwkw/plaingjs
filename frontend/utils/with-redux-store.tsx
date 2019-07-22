@@ -1,12 +1,13 @@
 import React from "react";
 import { initializeStore, AppStore } from "../store";
+import { isServer } from "./env";
+import { NextPageContext } from "next";
 
-const isServer = typeof window === "undefined";
 const __NEXT_REDUX_STORE__ = "__NEXT_REDUX_STORE__";
 
-function getOrCreateStore(initialState: any = {}) {
+function getOrCreateStore(initialState: any = {}): AppStore {
   // Always make a new store if server, otherwise state is shared between requests
-  if (isServer) {
+  if (isServer()) {
     return initializeStore(initialState);
   }
 
@@ -51,3 +52,5 @@ export default App => {
     }
   };
 };
+
+export type NextPageContextRedux = NextPageContext & { reduxStore: AppStore };

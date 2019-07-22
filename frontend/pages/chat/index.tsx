@@ -2,6 +2,9 @@ import * as React from "react";
 import NewMessage from "./containers/NewMessage";
 import MessagesList from "./containers/MessageList";
 import Sidebar from "./containers/Sidebar";
+import { addUser } from "./actions";
+import { NextPageContextRedux } from "../../utils/with-redux-store";
+import { isServer } from "../../utils/env";
 
 const Chat = () => (
   <div id="container">
@@ -49,5 +52,10 @@ const Chat = () => (
     `}</style>
   </div>
 );
+
+Chat.getInitialProps = ({ reduxStore }: NextPageContextRedux) => {
+  if (isServer()) reduxStore.dispatch(addUser("Me"));
+  return {};
+};
 
 export default Chat;
