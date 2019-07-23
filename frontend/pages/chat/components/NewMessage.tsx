@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import { useState } from "react";
 
 const NewMessage = ({ addMessage }: { addMessage: Function }) => {
@@ -7,9 +7,8 @@ const NewMessage = ({ addMessage }: { addMessage: Function }) => {
   return (
     <div id="new-message">
       <textarea
-        type="text"
         placeholder="Type here..."
-        onKeyPress={(event: KeyboardEvent) => {
+        onKeyPress={event => {
           if (event.key === "Enter") {
             addMessage(message, "Me");
             setMessage("");
