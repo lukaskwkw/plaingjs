@@ -8,10 +8,10 @@
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run develop\" \"cd chat-webserver && npm run start\"",
-    "debug": "concurrently \"cd frontend && npm run debug\" \"cd backend && npm run develop\" \"cd chat-webserver && npm run start\"",
-    "tmux:dev": "concurrently \"tmux new-session -d -s frontend 'cd frontend && npm run dev'\" \"tmux new-session -d -s strapi 'cd backend && npm run develop'\" \"tmux new-session -d -s chat-webserver 'cd chat-webserver && npm start'\"",
-    "tmux:debug": "concurrently \"tmux new-session -d -s frontend 'cd frontend && npm run debug'\" \"tmux new-session -d -s strapi 'cd backend && npm run develop'\" \"tmux new-session -d -s chat-webserver 'cd chat-webserver && npm start'\""
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run develop\" \"cd chat-webserver && npm run dev\"",
+    "debug": "concurrently \"cd frontend && npm run debug\" \"cd backend && npm run develop\" \"cd chat-webserver && npm run dev\"",
+    "tmux:dev": "concurrently \"tmux new-session -d -s frontend 'cd frontend && npm run dev'\" \"tmux new-session -d -s strapi 'cd backend && npm run develop'\" \"tmux new-session -d -s chat-webserver 'cd chat-webserver && npm run dev'\"",
+    "tmux:debug": "concurrently \"tmux new-session -d -s frontend 'cd frontend && npm run debug'\" \"tmux new-session -d -s strapi 'cd backend && npm run develop'\" \"tmux new-session -d -s chat-webserver 'cd chat-webserver && npm run dev'\""
   },
   "repository": {
     "type": "git",

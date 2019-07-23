@@ -11,14 +11,21 @@
     {
       "type": "node",
       "request": "attach",
-      "name": "Frontend: Node Attach",
+      "name": "Frontend: Attach to Node",
       "cwd": "${workspaceFolder}/frontend/",
       "port": 9229
     },
     {
+      "type": "node",
+      "request": "attach",
+      "name": "Chat-webserver: Attach to Node",
+      "cwd": "${workspaceFolder}/chat-webserver/",
+      "port": 7002
+    },
+    {
       "type": "chrome",
       "request": "attach",
-      "name": "Frontend: Attach chrome",
+      "name": "Frontend: Attach to chrome",
       "port": 9222,
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}/frontend/"
@@ -37,12 +44,16 @@
   ],
   "compounds": [
     {
-      "name": "Frontend: Node + Attach chrome",
-      "configurations": ["Frontend: Node", "Frontend: Attach chrome"]
+      "name": "Frontend: Node + Attach to chrome",
+      "configurations": ["Frontend: Node", "Frontend: Attach to chrome"]
     },
     {
-      "name": "Frontend: Attach both",
-      "configurations": ["Frontend: Node Attach", "Frontend: Attach chrome"]
+      "name": "Frontend: Attach All",
+      "configurations": [
+        "Frontend: Attach to Node",
+        "Frontend: Attach to chrome",
+        "Chat-webserver: Attach to Node"
+      ]
     }
   ]
 }
