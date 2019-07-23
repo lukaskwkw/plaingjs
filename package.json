@@ -1,0 +1,26 @@
+{
+  "name": "nextapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^4.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run develop\" \"cd chat-webserver && npm run start\"",
+    "debug": "concurrently \"cd frontend && npm run debug\" \"cd backend && npm run develop\" \"cd chat-webserver && npm run start\"",
+    "tmux:dev": "concurrently \"tmux new-session -d -s frontend 'cd frontend && npm run dev'\" \"tmux new-session -d -s strapi 'cd backend && npm run develop'\" \"tmux new-session -d -s chat-webserver 'cd chat-webserver && npm start'\"",
+    "tmux:debug": "concurrently \"tmux new-session -d -s frontend 'cd frontend && npm run debug'\" \"tmux new-session -d -s strapi 'cd backend && npm run develop'\" \"tmux new-session -d -s chat-webserver 'cd chat-webserver && npm start'\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukaskwkw/nextapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukaskwkw/nextapp/issues"
+  },
+  "homepage": "https://github.com/lukaskwkw/nextapp#readme"
+}

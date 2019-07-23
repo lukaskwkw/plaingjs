@@ -2,30 +2,37 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
-      "request": "attach",
-      "name": "Frontend: Attach chrome",
-      "port": 9222,
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
       "type": "node",
-      "request": "launch",
-      "name": "Frontend: Node",
-      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/next",
-      "env": {
-        "NODE_OPTIONS": "--inspect"
-      },
-      "port": 9229,
-      "console": "integratedTerminal"
+      "request": "attach",
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "cwd": "${workspaceFolder}/frontend/"
     },
     {
       "type": "node",
       "request": "attach",
       "name": "Frontend: Node Attach",
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/frontend/",
       "port": 9229
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Frontend: Attach chrome",
+      "port": 9222,
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend/"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Frontend: Node",
+      "runtimeExecutable": "${workspaceFolder}/frontend/node_modules/.bin/next",
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      },
+      "port": 9229,
+      "console": "integratedTerminal"
     }
   ],
   "compounds": [
