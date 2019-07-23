@@ -1,17 +1,55 @@
 import * as WebSocket from "ws";
 
-import { StoreState } from "../frontend/store";
-import TypeKeys from "../frontend/pages/chat/ActionTypes";
+import TypeKeys, { ActionTypes } from "../frontend/pages/chat/ActionTypes";
+import { addMessage, populateUsersList } from "../frontend/pages/chat/actions";
 
-// const WebSocket = require("ws");
-
-// const wss = new WebSocket("ws://localhost:9124/");
 const wss = new WebSocket.Server({ port: 9124 });
 
+const users = [];
+
+const broadcast = (data: ActionTypes, ws) => {
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN && client !== ws) {
+      client.send(JSON.stringify(data));
+    }
+  });
+};
+
 wss.on("connection", ws => {
+  let index;
   ws.on("message", message => {
-    console.log("received: %s", message);
+    const data: ActionTypes = JSON.parse(message);
+
+    switch (data.type) {
+      case TypeKeys.ADD_USER: {
+        index = users.length;
+        users.push({ name: data.name, id: index + 1 });
+
+        const action = populateUsersList(users);
+
+        ws.send(JSON.stringify(action));
+        broadcast(action, ws);
+        break;
+      }
+      case TypeKeys.ADD_MESSAGE:
+        const { author, message } = data;
+        const action = addMessage(message, author);
+
+        broadcast(action, ws);
+        break;
+      default:
+        break;
+    }
   });
 
-  ws.send("something");
+  ws.on("close", () => {
+    users.splice(index, 1);
+    broadcast(
+      {
+        type: TypeKeys.USERS_LIST,
+        users
+      },
+      ws
+    );
+  });
 });

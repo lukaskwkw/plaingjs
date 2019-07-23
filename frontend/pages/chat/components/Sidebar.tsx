@@ -1,4 +1,3 @@
-import * as React from "react";
 import { User } from "../model";
 
 const Sidebar = ({ users }: { users: User[] }) => (

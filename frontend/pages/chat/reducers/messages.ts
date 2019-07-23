@@ -2,9 +2,7 @@ import TypeKeys, { MessageActionTypes } from "../ActionTypes";
 import { Message } from "../model";
 
 interface MessageReducer {
-  (state: Required<Message>[], action: Message & MessageActionTypes): Required<
-    Message
-  >[];
+  (state: Required<Message>[], action: MessageActionTypes): Required<Message>[];
 }
 
 export const messages: MessageReducer = (

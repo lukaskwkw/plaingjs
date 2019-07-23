@@ -9,38 +9,39 @@ enum TypeKeys {
 
 export default TypeKeys;
 
-type AddMessageAction = {
+export type AddMessageAction = {
   type: TypeKeys.ADD_MESSAGE;
-};
+} & Message;
 
 type MessageReceivedAction = {
   type: TypeKeys.MESSAGE_RECEIVED;
-};
+} & Message;
 
 type AddUserAction = {
   type: TypeKeys.ADD_USER;
-};
+} & User;
 
 type PopulateUsersListAction = {
   type: TypeKeys.USERS_LIST;
-};
+} & { users: User[] };
 
 export interface AddMessage {
-  (message: Message["message"], author: Message["author"]): Message &
-    AddMessageAction;
+  (message: Message["message"], author: Message["author"]): AddMessageAction;
 }
 
 export interface MessageReceived {
-  (message: Message["message"], author: Message["author"]): Message &
-    MessageReceivedAction;
+  (
+    message: Message["message"],
+    author: Message["author"]
+  ): MessageReceivedAction;
 }
 
 export interface AddUser {
-  (name: User["name"]): User & AddUserAction;
+  (name: User["name"]): AddUserAction;
 }
 
 export interface PopulateUsersList {
-  (users: User[]): { users: User[] } & PopulateUsersListAction;
+  (users: User[]): PopulateUsersListAction;
 }
 
 export type MessageActionTypes = AddMessageAction | MessageReceivedAction;

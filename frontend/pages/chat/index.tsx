@@ -1,10 +1,11 @@
-import * as React from "react";
 import NewMessage from "./containers/NewMessage";
 import MessagesList from "./containers/MessageList";
 import Sidebar from "./containers/Sidebar";
-import { addUser } from "./actions";
 import { NextPageContextRedux } from "../../utils/with-redux-store";
 import { isServer } from "../../utils/env";
+import { sagaMiddleware } from "../../store";
+import setupSocket from "./sockets";
+import handleNewMessage from "../../sagas";
 
 const Chat = () => (
   <div id="container">
@@ -45,16 +46,35 @@ const Chat = () => (
       }
       #sidebar {
         grid-area: sidebar;
-        padding: 5px 0 0 5px;
+        padding: 15px 0 0 5px;
         border-right: 1px solid #3f3f3f;
         height: 100%;
+      }
+      #sidebar > ul {
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        list-style: none;
       }
     `}</style>
   </div>
 );
 
 Chat.getInitialProps = ({ reduxStore }: NextPageContextRedux) => {
-  if (isServer()) reduxStore.dispatch(addUser("Me"));
+  if (!isServer()) {
+    const { users } = reduxStore.getState().chat;
+
+    if (users.length > 0) return {};
+
+    const username =
+      "User" +
+      Math.random()
+        .toString()
+        .slice(1, 5);
+    const socket = setupSocket(reduxStore.dispatch, username);
+    sagaMiddleware.run(handleNewMessage, { socket, username });
+  }
   return {};
 };
 
