@@ -2,10 +2,11 @@ import * as WebSocket from "ws";
 
 import TypeKeys, { ActionTypes } from "../frontend/pages/chat/ActionTypes";
 import { addMessage, populateUsersList } from "../frontend/pages/chat/actions";
+import { User } from "../frontend/pages/chat/model";
 
 const wss = new WebSocket.Server({ port: 9124 });
 
-const users = [];
+const users: User[] = [];
 
 const broadcast = (data: ActionTypes, ws) => {
   wss.clients.forEach(client => {
@@ -22,6 +23,9 @@ wss.on("connection", ws => {
 
     switch (data.type) {
       case TypeKeys.ADD_USER: {
+        if (users.find(user => user.name === data.name)) {
+        }
+
         index = users.length;
         users.push({ name: data.name, id: index + 1 });
 

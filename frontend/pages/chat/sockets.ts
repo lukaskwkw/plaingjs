@@ -1,7 +1,12 @@
 import TypeKeys, { ActionTypes } from "./ActionTypes";
 import { addUser, messageReceived, populateUsersList } from "./actions";
 
-const setupSocket = (dispatch, username) => {
+const setupSocket = (
+  dispatch,
+  username,
+  resolve = undefined,
+  reject = undefined
+) => {
   const socket = new WebSocket("ws://localhost:9124");
 
   socket.onopen = () => {
@@ -18,7 +23,15 @@ const setupSocket = (dispatch, username) => {
         dispatch(addUser(data.name));
         break;
       case TypeKeys.USERS_LIST:
+        if (resolve) {
+          resolve();
+        }
         dispatch(populateUsersList(data.users));
+        break;
+      case TypeKeys.ALREADY_TAKEN:
+        if (reject) {
+          reject();
+        }
         break;
       default:
         break;

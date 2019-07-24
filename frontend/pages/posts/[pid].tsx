@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { NextPage, NextPageContext } from "next";
 import { Post } from "../../model";
 import url from "url";
-import { NextPageContextRedux } from "../../utils/with-redux-store";
+import { NextPageContextStore } from "../../utils/with-redux-store";
 
 interface Props {
   postContent: Post;
@@ -16,7 +16,7 @@ const PostPage: NextPage<Props> = ({ postContent }) => (
   </>
 );
 
-PostPage.getInitialProps = async ({ query }: NextPageContextRedux) => {
+PostPage.getInitialProps = async ({ query }: NextPageContextStore) => {
   //TODO: add client database i.e. redux or kind of singleton and try to get from it first
   const { pid } = query;
   // if (typeof window !== "undefined") {

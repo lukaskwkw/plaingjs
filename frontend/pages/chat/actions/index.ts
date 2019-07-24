@@ -21,6 +21,10 @@ export const addUser: AddUser = name => ({
   name
 });
 
+export const alreadyTaken = () => ({
+  type: TypeKeys.ALREADY_TAKEN
+});
+
 export const messageReceived: MessageReceived = (message, author) => ({
   type: TypeKeys.MESSAGE_RECEIVED,
   id: nextMessageId++,

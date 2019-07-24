@@ -2,6 +2,7 @@ import { Message, User } from "./model";
 
 enum TypeKeys {
   ADD_MESSAGE = "ADD_MESSAGE",
+  ALREADY_TAKEN = "ALREADY_TAKEN",
   MESSAGE_RECEIVED = "MESSAGE_RECEIVED",
   ADD_USER = "ADD_USER",
   USERS_LIST = "USERS_LIST"
@@ -25,6 +26,10 @@ type PopulateUsersListAction = {
   type: TypeKeys.USERS_LIST;
 } & { users: User[] };
 
+type AlreadyTakenAction = {
+  type: TypeKeys.ALREADY_TAKEN;
+};
+
 export interface AddMessage {
   (message: Message["message"], author: Message["author"]): AddMessageAction;
 }
@@ -47,4 +52,7 @@ export interface PopulateUsersList {
 export type MessageActionTypes = AddMessageAction | MessageReceivedAction;
 export type UserActionTypes = AddUserAction | PopulateUsersListAction;
 
-export type ActionTypes = MessageActionTypes | UserActionTypes;
+export type ActionTypes =
+  | MessageActionTypes
+  | UserActionTypes
+  | AlreadyTakenAction;

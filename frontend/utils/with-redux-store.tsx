@@ -53,4 +53,4 @@ export default App => {
   };
 };
 
-export type NextPageContextRedux = NextPageContext & { reduxStore: AppStore };
+export type NextPageContextStore = NextPageContext & { reduxStore: AppStore };

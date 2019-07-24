@@ -1,16 +1,18 @@
 import NewMessage from "./containers/NewMessage";
 import MessagesList from "./containers/MessageList";
 import Sidebar from "./containers/Sidebar";
-import { NextPageContextRedux } from "../../utils/with-redux-store";
+import { NextPageContextStore } from "../../utils/with-redux-store";
 import { isServer } from "../../utils/env";
 import { sagaMiddleware } from "../../store";
 import setupSocket from "./sockets";
 import handleNewMessage from "../../sagas";
+import ChatModal from "./components/ChatModal";
 
 const Chat = () => (
   <div id="container">
-    <Sidebar users={[]} />
+    <Sidebar />
     <div id="main">
+      <ChatModal />
       <MessagesList />
       <NewMessage />
     </div>
@@ -60,22 +62,5 @@ const Chat = () => (
     `}</style>
   </div>
 );
-
-Chat.getInitialProps = ({ reduxStore }: NextPageContextRedux) => {
-  if (!isServer()) {
-    const { users } = reduxStore.getState().chat;
-
-    if (users.length > 0) return {};
-
-    const username =
-      "User" +
-      Math.random()
-        .toString()
-        .slice(1, 5);
-    const socket = setupSocket(reduxStore.dispatch, username);
-    sagaMiddleware.run(handleNewMessage, { socket, username });
-  }
-  return {};
-};
 
 export default Chat;
