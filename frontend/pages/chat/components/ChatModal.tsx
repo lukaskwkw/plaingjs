@@ -88,7 +88,7 @@ const ChatModal: ChatModalComponent = ({ dispatch, firstLaunch }) => {
             <Input
               name="username"
               placeholder="Type your username..."
-              {...(modal.isNameAvailable === false ? { invalid: true } : {})}
+              invalid={modal.isNameAvailable === false}
               value={username}
               onChange={(event: ChangeEvent) =>
                 setUsername(event.target["value"])

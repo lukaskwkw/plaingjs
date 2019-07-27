@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Message } from "../../../lib_chat/model";
 
 interface MessageItemProps extends Message {
