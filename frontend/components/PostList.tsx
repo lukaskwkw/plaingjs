@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Card, CardBody, CardImg } from "reactstrap";
 import { CardTitle } from "reactstrap";
 import url from "url";
-import { backendUrl } from "../config";
+import { strapiUrl } from "../config";
 interface PostListArgs {
   posts?: any;
   search: string;
@@ -28,7 +28,7 @@ const PostList = ({ posts, search }: PostListArgs) => {
                   <CardImg
                     top={true}
                     style={{ height: 250 }}
-                    src={url.resolve(backendUrl, post.cover.url)}
+                    src={url.resolve(strapiUrl, post.cover.url)}
                   />
                 )}
                 <CardBody>

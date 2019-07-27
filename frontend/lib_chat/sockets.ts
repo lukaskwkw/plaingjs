@@ -1,5 +1,6 @@
 import TypeKeys, { ActionTypes } from "./ActionTypes";
 import { addUser, messageReceived, populateUsersList } from "./actions";
+import { webserverUrl } from "../config";
 
 const setupSocket = (
   dispatch,
@@ -8,7 +9,7 @@ const setupSocket = (
   reject = undefined
 ) => {
   let socket: WebSocket;
-  socket = new WebSocket("ws://localhost:9124");
+  socket = new WebSocket(webserverUrl);
 
   socket.onerror = () => {
     reject("Connection error");

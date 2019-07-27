@@ -1,4 +1,4 @@
-import { backendUrl } from "../../config";
+import { strapiUrl } from "../../config";
 import fetch from "node-fetch";
 import { NextPage, NextPageContext } from "next";
 import { Post } from "../../model";
@@ -27,7 +27,7 @@ PostPage.getInitialProps = async ({ query }: NextPageContextStore) => {
     return;
   }
 
-  const postUrl = url.resolve(backendUrl, `/posts/${encodeURIComponent(pid)}`);
+  const postUrl = url.resolve(strapiUrl, `/posts/${encodeURIComponent(pid)}`);
 
   const postContent = await fetch(postUrl).then(res => res.json());
 

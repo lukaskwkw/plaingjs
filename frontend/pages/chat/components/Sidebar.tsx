@@ -1,4 +1,4 @@
-import { User } from "../model";
+import { User } from "../../../lib_chat/model";
 
 const Sidebar = ({ users }: { users: User[] }) => (
   <aside id="sidebar">

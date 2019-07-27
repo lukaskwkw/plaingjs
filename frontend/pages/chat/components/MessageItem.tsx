@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Message } from "../model";
+import { Message } from "../../../lib_chat/model";
 
 interface MessageItemProps extends Message {
   key?: number;

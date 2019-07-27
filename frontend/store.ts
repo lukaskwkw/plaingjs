@@ -1,6 +1,6 @@
 import createSagaMiddleware from "redux-saga";
 import { Store, createStore, combineReducers, applyMiddleware } from "redux";
-import chat from "./pages/chat/reducers/index";
+import chat from "./lib_chat/reducers/index";
 
 const reducer = combineReducers({ chat });
 export type StoreState = ReturnType<typeof reducer>;

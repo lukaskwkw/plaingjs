@@ -28,13 +28,16 @@ const Chat: ChatComponent = ({ firstLaunch }) => (
         grid-template-columns: 1fr 5fr;
         grid-template-areas: "sidebar main";
         width: 100%;
-        height: 100vh;
+        height: 90vh;
       }
       #main {
+        display: flex;
+        flex-direction: column;
         grid-area: main;
       }
       #new-message {
-        position: fixed;
+        flex: 1;
+        flex-basis: 20px;
         background-color: #fff;
         bottom: 0;
         width: 100%;
@@ -51,6 +54,10 @@ const Chat: ChatComponent = ({ firstLaunch }) => (
       }
       #messages-list {
         padding: 5px 0 0 5px;
+        flex: 4;
+        flex-basis: 200px;
+        max-height: 93vh;
+        overflow-y: scroll;
       }
       #sidebar {
         grid-area: sidebar;

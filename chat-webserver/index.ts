@@ -1,11 +1,12 @@
 import * as WebSocket from "ws";
 
-import TypeKeys, { ActionTypes } from "../frontend/pages/chat/ActionTypes";
-import { addMessage, populateUsersList } from "../frontend/pages/chat/actions";
-import { User } from "../frontend/pages/chat/model";
-import { alreadyTaken } from "../frontend/pages/chat/actions/index";
+import TypeKeys, { ActionTypes } from "../frontend/lib_chat/ActionTypes";
+import { addMessage, populateUsersList } from "../frontend/lib_chat/actions";
+import { alreadyTaken } from "../frontend/lib_chat/actions/index";
+import { webServerPort } from "../frontend/config";
+import { User } from "../frontend/lib_chat/model";
 
-const wss = new WebSocket.Server({ port: 9124 });
+const wss = new WebSocket.Server({ port: webServerPort });
 
 const users: User[] = [];
 

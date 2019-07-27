@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Message } from "../model";
+import { Message } from "../../../lib_chat/model";
 import MessageItem from "./MessageItem";
 
 const MessagesList = ({ messages }: { messages: Message[] }) => (

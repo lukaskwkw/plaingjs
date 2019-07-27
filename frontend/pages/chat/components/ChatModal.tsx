@@ -12,7 +12,7 @@ import {
   UncontrolledAlert
 } from "reactstrap";
 import { useEffect, useState, ChangeEvent, SyntheticEvent } from "react";
-import setupSocket from "../sockets";
+import setupSocket from "../../../lib_chat/sockets";
 import { sagaMiddleware, AppStore } from "../../../store";
 import handleNewMessage from "../../../sagas/index";
 import { ChatComponentProps } from "..";
