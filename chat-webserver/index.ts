@@ -3,6 +3,7 @@ import * as WebSocket from "ws";
 import TypeKeys, { ActionTypes } from "../frontend/pages/chat/ActionTypes";
 import { addMessage, populateUsersList } from "../frontend/pages/chat/actions";
 import { User } from "../frontend/pages/chat/model";
+import { alreadyTaken } from "../frontend/pages/chat/actions/index";
 
 const wss = new WebSocket.Server({ port: 9124 });
 
@@ -23,11 +24,17 @@ wss.on("connection", ws => {
 
     switch (data.type) {
       case TypeKeys.ADD_USER: {
+        index = users.length;
+        let currIndex = index + 1;
+        users.push({ name: undefined, id: currIndex });
+
         if (users.find(user => user.name === data.name)) {
+          const action = alreadyTaken();
+          ws.send(JSON.stringify(action));
+          return;
         }
 
-        index = users.length;
-        users.push({ name: data.name, id: index + 1 });
+        users[index].name = data.name;
 
         const action = populateUsersList(users);
 

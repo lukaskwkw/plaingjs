@@ -8,44 +8,67 @@ import {
   FormFeedback,
   FormGroup,
   Label,
-  Input
+  Input,
+  UncontrolledAlert
 } from "reactstrap";
-import { useEffect, useState, ChangeEvent } from "react";
-import { NextPageContextStore } from "../../../utils/with-redux-store";
-import { isServer } from "../../../utils/env";
+import { useEffect, useState, ChangeEvent, SyntheticEvent } from "react";
 import setupSocket from "../sockets";
 import { sagaMiddleware, AppStore } from "../../../store";
 import handleNewMessage from "../../../sagas/index";
+import { ChatComponentProps } from "..";
+import { connect } from "react-redux";
 
-const showModal = (setModal: Function) =>
-  new Promise<string>(resolve => {
-    setModal({ show: true, resolver: resolve });
-  });
-
-type ChatModalProps = {
-  dispatch?: AppStore["dispatch"];
-  firstLaunch?: boolean;
-};
+const showModal = (setModal: Function, resolver: Function) =>
+  setModal(modal => ({ ...modal, show: true, resolver }));
 
 interface ChatModalComponent {
-  (props: ChatModalProps);
-  getInitialProps: (contextWithStore: NextPageContextStore) => ChatModalProps;
+  (props: ChatComponentProps & { dispatch?: AppStore["dispatch"] });
 }
+
+type ChatState = {
+  busy: boolean;
+  show: boolean;
+  isNameAvailable: boolean;
+  error: string;
+  resolver: Function;
+};
 
 const ChatModal: ChatModalComponent = ({ dispatch, firstLaunch }) => {
   const [username, setUsername] = useState("");
-  const [modal, setModal] = useState({ show: false, resolver: undefined });
-  const [isNameAvailable, setIsNameAvailable] = useState(false);
+  const [modal, setModal] = useState<ChatState>({
+    busy: false,
+    show: false,
+    isNameAvailable: true,
+    error: undefined,
+    resolver: undefined
+  });
 
   useEffect(() => {
     firstLaunch &&
-      showModal(setModal).then(resolvedName => {
-        return new Promise((resolve, reject) => {
-          const socket = setupSocket(dispatch, resolvedName, resolve, reject);
-          sagaMiddleware.run(handleNewMessage, {
-            socket,
-            username: resolvedName
-          });
+      showModal(setModal, username => {
+        setModal(modal => ({ ...modal, busy: true }));
+        new Promise((resolve, reject) => {
+          setupSocket(
+            dispatch,
+            username,
+            (socket: WebSocket) => {
+              sagaMiddleware.run(handleNewMessage, {
+                socket,
+                username
+              });
+              setModal(modal => ({ ...modal, show: false, busy: false }));
+              resolve();
+            },
+            error => {
+              setModal(modal => ({
+                ...modal,
+                busy: false,
+                error,
+                isNameAvailable: error ? true : false
+              }));
+              reject();
+            }
+          );
         });
       });
   }, []);
@@ -54,26 +77,42 @@ const ChatModal: ChatModalComponent = ({ dispatch, firstLaunch }) => {
     <Modal isOpen={modal.show}>
       <ModalHeader>Your username</ModalHeader>
       <ModalBody>
-        <Form>
+        <Form
+          onSubmit={(event: SyntheticEvent) => {
+            event.preventDefault();
+            modal.resolver(username);
+          }}
+        >
           <FormGroup>
             <Label>Username</Label>
             <Input
               name="username"
               placeholder="Type your username..."
-              invalid={isNameAvailable === false}
+              {...(modal.isNameAvailable === false ? { invalid: true } : {})}
               value={username}
               onChange={(event: ChangeEvent) =>
                 setUsername(event.target["value"])
               }
             />
-            <FormFeedback invalid={isNameAvailable === false}>
-              This username is not available
-            </FormFeedback>
+            {modal.isNameAvailable === false && (
+              <FormFeedback invalid>
+                This username is not available
+              </FormFeedback>
+            )}
+            {modal.error && (
+              <UncontrolledAlert color="danger">
+                {modal.error}
+              </UncontrolledAlert>
+            )}
           </FormGroup>
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={() => modal.resolver(username)}>
+        <Button
+          disabled={modal.busy || username.length === 0}
+          color="primary"
+          onClick={() => modal.resolver(username)}
+        >
           Ok
         </Button>
       </ModalFooter>
@@ -81,22 +120,7 @@ const ChatModal: ChatModalComponent = ({ dispatch, firstLaunch }) => {
   );
 };
 
-ChatModal.getInitialProps = ({ reduxStore }) => {
-  if (!isServer()) {
-    const { users } = reduxStore.getState().chat;
-
-    if (users.length === 0)
-      return { dupa: "kuap", dispatch: reduxStore.dispatch, firstLaunch: true };
-
-    // const username =
-    //   "User" +
-    //   Math.random()
-    //     .toString()
-    //     .slice(1, 5);
-    // const socket = setupSocket(reduxStore.dispatch, username);
-    // sagaMiddleware.run(handleNewMessage, { socket, username });
-  }
-  return {};
-};
-
-export default ChatModal;
+export default connect(
+  () => ({}),
+  dispatch => ({ dispatch })
+)(ChatModal);

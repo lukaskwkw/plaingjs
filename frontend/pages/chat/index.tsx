@@ -2,17 +2,23 @@ import NewMessage from "./containers/NewMessage";
 import MessagesList from "./containers/MessageList";
 import Sidebar from "./containers/Sidebar";
 import { NextPageContextStore } from "../../utils/with-redux-store";
-import { isServer } from "../../utils/env";
-import { sagaMiddleware } from "../../store";
-import setupSocket from "./sockets";
-import handleNewMessage from "../../sagas";
 import ChatModal from "./components/ChatModal";
 
-const Chat = () => (
+export type ChatComponentProps = {
+  firstLaunch: boolean;
+};
+interface ChatComponent {
+  (props: ChatComponentProps);
+  getInitialProps: (
+    contextWithStore: NextPageContextStore
+  ) => ChatComponentProps;
+}
+
+const Chat: ChatComponent = ({ firstLaunch }) => (
   <div id="container">
     <Sidebar />
     <div id="main">
-      <ChatModal />
+      <ChatModal firstLaunch={firstLaunch} />
       <MessagesList />
       <NewMessage />
     </div>
@@ -62,5 +68,13 @@ const Chat = () => (
     `}</style>
   </div>
 );
+
+Chat.getInitialProps = ({ reduxStore }) => {
+  const { users } = reduxStore.getState().chat;
+
+  if (users.length === 0) return { firstLaunch: true };
+
+  return { firstLaunch: false };
+};
 
 export default Chat;

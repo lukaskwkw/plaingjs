@@ -7,7 +7,14 @@ const setupSocket = (
   resolve = undefined,
   reject = undefined
 ) => {
-  const socket = new WebSocket("ws://localhost:9124");
+  let socket: WebSocket;
+  socket = new WebSocket("ws://localhost:9124");
+
+  socket.onerror = () => {
+    reject("Connection error");
+  };
+
+  let resolved = false;
 
   socket.onopen = () => {
     socket.send(JSON.stringify(addUser(username)));
@@ -23,13 +30,15 @@ const setupSocket = (
         dispatch(addUser(data.name));
         break;
       case TypeKeys.USERS_LIST:
-        if (resolve) {
-          resolve();
+        if (!resolved) {
+          if (resolve) resolve(socket);
+          resolved = true;
         }
         dispatch(populateUsersList(data.users));
         break;
       case TypeKeys.ALREADY_TAKEN:
         if (reject) {
+          socket.close();
           reject();
         }
         break;
@@ -37,8 +46,6 @@ const setupSocket = (
         break;
     }
   };
-
-  return socket;
 };
 
 export default setupSocket;
