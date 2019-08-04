@@ -1,12 +1,22 @@
 import * as WebSocket from "ws";
+const https = require("https");
+const fs = require("fs");
 
 import TypeKeys, { ActionTypes } from "../frontend/lib_chat/ActionTypes";
 import { addMessage, populateUsersList } from "../frontend/lib_chat/actions";
 import { alreadyTaken } from "../frontend/lib_chat/actions/index";
-import { webServerPort } from "../frontend/config";
+import { webServerPort, serverHost } from "../frontend/config";
 import { User } from "../frontend/lib_chat/model";
 
-const wss = new WebSocket.Server({ port: webServerPort });
+const server = https.createServer({
+  cert: fs.readFileSync("./server.cert"),
+  key: fs.readFileSync("./server.key")
+});
+
+const wss = new WebSocket.Server({
+  server,
+  rejectUnauthorized: false
+});
 
 const users: User[] = [];
 
@@ -63,5 +73,27 @@ wss.on("connection", ws => {
       },
       ws
     );
+  });
+});
+
+server.listen({ port: webServerPort }, () => {
+  //
+  // If the `rejectUnauthorized` option is not `false`, the server certificate
+  // is verified against a list of well-known CAs. An 'error' event is emitted
+  // if verification fails.
+  //
+  // The certificate used in this example is self-signed so `rejectUnauthorized`
+  // is set to `false`.
+  //
+
+  console.info(`Listening on: ${server.address().port}`);
+
+  const ws = new WebSocket(`wss://${serverHost}:${server.address().port}`, {
+    rejectUnauthorized: false
+  });
+
+  ws.on("open", () => {
+    const action = addMessage("start", "ja");
+    ws.send(JSON.stringify(action));
   });
 });
